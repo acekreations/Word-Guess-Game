@@ -1,0 +1,10 @@
+.correctLetters {
+  list-style: none;
+}
+
+.blankSpaces {
+  display: inline-block;
+  margin-right: 10px;
+  min-width: 20px;
+  border-bottom: 3px solid #000;
+}
