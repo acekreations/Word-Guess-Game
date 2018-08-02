@@ -1,22 +1,26 @@
+// VARIABLES
 var alphabet = "abcdefghijklmnopqrstuvwrxyz";
 alphabet = alphabet.split("");
 var cars = ["mustang", "camero", "stingray", "cobra", "charger"];
 var gameNum = 0;
 var wins = 0;
-var reamainingGuesses = 15;
+var reamainingGuesses = 10;
 var guessedLetters = [];
-
 //Empty word object
 var correctLetters = {
 }
 
-//turn word into array
-letterArray = cars[gameNum].split("");
+function generateWord() {
+  //turn word into array
+  letterArray = cars[gameNum].split("");
 
-//put array of word into word object
-letterArray.forEach(function(letter){
-  correctLetters[letter] = "";
-});
+  //put array of word into word object
+  letterArray.forEach(function(letter){
+    correctLetters[letter] = "";
+  });
+}
+
+// FUNCTIONS
 
 //loop through word object
 function refreshBlankLetters(){
@@ -29,7 +33,18 @@ function refreshBlankLetters(){
   });
 }
 
+function gameReset(){
+  reamainingGuesses = 15;
+  guessedLetters = [];
+  correctLetters = {};
+  generateWord();
+  refreshBlankLetters();
+}
+
 function gameWon() {
+  wins++;
+  gameNum++;
+  gameReset();
   console.log("You won!");
 }
 
@@ -47,9 +62,11 @@ function checkForWin() {
   }
 }
 
-//Initialize blank letters on load
-refreshBlankLetters();
+// GAME LOGIC
 
+//Initialize game
+generateWord();
+refreshBlankLetters();
 
 document.onkeyup = function(event){
   var key = event.key;
@@ -67,6 +84,11 @@ document.onkeyup = function(event){
         refreshBlankLetters();
         console.log("got one");
         checkForWin();
+      }
+      else {
+        guessedLetters.push(key);
+        reamainingGuesses--;
+        console.log("remaining: " + reamainingGuesses);
       }
     }
     else {
