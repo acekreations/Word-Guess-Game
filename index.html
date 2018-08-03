@@ -12,18 +12,18 @@
     <title>Classic Car Hangman</title>
   </head>
   <body>
-    <div class="container">
-      <h1>Classic Car Hangman</h1>
+    <div class="container-fluid text-center">
+      <div id="game">
+        <h1>Classic Car Hangman</h1>
 
-      <p id="gamesWon"></p>
+        <ul id="correctLetters">
 
-      <ul id="correctLetters">
+        </ul>
 
-      </ul>
-
-      <p id="reamainingGuesses"></p>
-      <p id="reamainingGuesses"></p>
-      <p id="guessedLetters"></p>
+        <p>Games Won: <span id="gamesWon">0</span></p>
+        <p>Remaining Guesses: <span id="reamainingGuesses">10</span></p>
+        <p>Guessed Letters: <span id="guessedLetters"></span></p>
+      </div>
     </div>
 
     <script src="assets/Javascript/game.js" charset="utf-8"></script>

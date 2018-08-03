@@ -1,7 +1,7 @@
 // VARIABLES
 var alphabet = "abcdefghijklmnopqrstuvwrxyz";
 alphabet = alphabet.split("");
-var cars = ["mustang", "camero", "stingray", "cobra", "charger"];
+var cars = ["mustang", "camero", "stingray", "cobra", "gto"];
 var gameNum = 0;
 var wins = 0;
 var reamainingGuesses = 10;
@@ -10,17 +10,16 @@ var guessedLetters = [];
 var correctLetters = {
 }
 
+// FUNCTIONS
+
 function generateWord() {
   //turn word into array
   letterArray = cars[gameNum].split("");
-
   //put array of word into word object
   letterArray.forEach(function(letter){
     correctLetters[letter] = "";
   });
 }
-
-// FUNCTIONS
 
 //loop through word object
 function refreshBlankLetters(){
@@ -33,19 +32,37 @@ function refreshBlankLetters(){
   });
 }
 
+function displayReamainingGuesses() {
+  document.getElementById("reamainingGuesses").textContent = reamainingGuesses;
+}
+
+function gameOver() {
+  gameNum = 0;
+  wins = 0;
+  document.getElementById("gamesWon").textContent = wins;
+  gameReset();
+}
+
 function gameReset(){
-  reamainingGuesses = 15;
-  guessedLetters = [];
-  correctLetters = {};
-  generateWord();
-  refreshBlankLetters();
+  if (gameNum >= cars.length) {
+    gameOver();
+  }
+  else {
+    reamainingGuesses = 10;
+    guessedLetters = [];
+    correctLetters = {};
+    document.getElementById("guessedLetters").textContent = guessedLetters;
+    generateWord();
+    refreshBlankLetters();
+    displayReamainingGuesses();
+  }
 }
 
 function gameWon() {
   wins++;
+  document.getElementById("gamesWon").textContent = wins;
   gameNum++;
   gameReset();
-  console.log("You won!");
 }
 
 //function check for empty objects to determine if word has been guessed
@@ -71,28 +88,29 @@ refreshBlankLetters();
 document.onkeyup = function(event){
   var key = event.key;
   if (alphabet.indexOf(key) >= 0) {
-    console.log(key);
     //Check if user has any guesses left
-    if (reamainingGuesses > 0) {
+    if (reamainingGuesses > 1) {
       //Check if user has aready made this guess
       if (guessedLetters.indexOf(key) >= 0) {
-        console.log("already guessed");
       }
+      //Check if letter is in word
       else if (cars[gameNum].indexOf(key) >= 0) {
         correctLetters[key] = key;
         guessedLetters.push(key);
+        document.getElementById("guessedLetters").textContent = guessedLetters;
         refreshBlankLetters();
-        console.log("got one");
         checkForWin();
       }
+      //Else user did not get a letter
       else {
         guessedLetters.push(key);
+        document.getElementById("guessedLetters").textContent = guessedLetters;
         reamainingGuesses--;
-        console.log("remaining: " + reamainingGuesses);
       }
     }
     else {
-      console.log("no more guesses");
+      gameReset();
     }
+    displayReamainingGuesses();
   }
 }
